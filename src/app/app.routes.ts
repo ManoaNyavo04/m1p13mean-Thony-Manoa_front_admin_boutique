@@ -21,7 +21,12 @@ import { CalenderComponent } from './pages/calender/calender.component';
 
 export const routes: Routes = [
   {
-    path:'',
+    path: '',
+    redirectTo: 'admin/login',
+    pathMatch: 'full'
+  },
+  {
+    path:'ecommerce',
     component:AppLayoutComponent,
     children:[
       {
@@ -104,9 +109,25 @@ export const routes: Routes = [
       },
     ]
   },
+  // admin routes
+  {
+    path:'admin',
+    children:[
+      {
+        path:'login',
+        component:SignInComponent,
+        title:'Admin Login | TailAdmin'
+      },
+      {
+        path:'signup',
+        component:SignUpComponent,
+        title:'Admin Signup | TailAdmin'
+      },
+    ]
+  },
   // auth pages
   {
-    path:'signin',
+    path:'login',
     component:SignInComponent,
     title:'Angular Sign In Dashboard | TailAdmin - Angular Admin Dashboard Template'
   },

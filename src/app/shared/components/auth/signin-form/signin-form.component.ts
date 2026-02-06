@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { LabelComponent } from '../../form/label/label.component';
 import { CheckboxComponent } from '../../form/input/checkbox.component';
 import { ButtonComponent } from '../../ui/button/button.component';
@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class SigninFormComponent {
 
+  @Output() loginSubmit = new EventEmitter<{ email: string; password: string }>();
+
   showPassword = false;
   isChecked = false;
 
@@ -33,8 +35,6 @@ export class SigninFormComponent {
   }
 
   onSignIn() {
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
-    console.log('Remember Me:', this.isChecked);
+    this.loginSubmit.emit({ email: this.email, password: this.password });
   }
 }
