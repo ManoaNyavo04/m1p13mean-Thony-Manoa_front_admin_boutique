@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthPageLayoutComponent } from '../../../shared/layout/auth-page-layout/auth-page-layout.component';
 import { SigninFormComponent } from '../../../shared/components/auth/signin-form/signin-form.component';
 import { UtilisateursService } from '../../../shared/services/utilisateur/utilisateurs.service';
@@ -14,17 +15,22 @@ import { UtilisateursService } from '../../../shared/services/utilisateur/utilis
 })
 export class SignInComponent {
 
-  constructor(private utilisateursService: UtilisateursService) {}
+  errorMessage = '';
+
+  constructor(
+    private utilisateursService: UtilisateursService,
+    private router: Router
+  ) {}
 
   onLogin(credentials: { email: string; password: string }) {
-    this.utilisateursService.login(credentials.email, credentials.password).subscribe({
+    this.errorMessage = '';
+    this.utilisateursService.loginAdmin(credentials.email, credentials.password).subscribe({
       next: (response) => {
-        console.log('Login success:', response);
-        // Handle successful login
+        this.utilisateursService.setToken(response.token);
+        this.router.navigate(['/ecommerce']);
       },
       error: (error) => {
-        console.error('Login failed:', error);
-        // Handle login error
+        this.errorMessage = error.error?.message || 'Échec de la connexion. Veuillez réessayer.';
       }
     });
   }

@@ -78,12 +78,18 @@
 
       <!-- Form -->
       <form (ngSubmit)="onSignIn()" class="space-y-6">
+        @if (errorMessage) {
+        <div class="p-4 text-sm text-error-700 bg-error-50 rounded-lg border border-error-200 dark:bg-error-900/20 dark:text-error-400 dark:border-error-800">
+          {{ errorMessage }}
+        </div>
+        }
         <div>
           <app-label>Email <span class="text-error-500">*</span></app-label>
           <app-input-field
             type="email"
             placeholder="info@gmail.com"
             [value]="email"
+            (valueChange)="updateEmail($event)"
             name="email"
             class="form-input"
             required
@@ -97,6 +103,7 @@
               [type]="showPassword ? 'text' : 'password'"
               placeholder="Enter your password"
               [value]="password"
+              (valueChange)="updatePassword($event)"
               name="password"
               class="form-input"
               required

@@ -65,35 +65,33 @@
 
     <form>
       <div class="space-y-5">
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <!-- First Name -->
-          <div class="sm:col-span-1">
-            <app-label>
-              First Name<span class="text-error-500">*</span>
-            </app-label>
-            <app-input-field type="text" [value]="fname" id="fname" name="fname" placeholder="Enter your first name" />
-          </div>
-          <!-- Last Name -->
-          <div class="sm:col-span-1">
-            <app-label>
-              Last Name<span class="text-error-500">*</span>
-            </app-label>
-            <app-input-field type="text" [value]="lname" id="lname" name="lname" placeholder="Enter your last name" />
-          </div>
+        <!-- Nom -->
+        <div>
+          <app-label>
+            Nom<span class="text-error-500">*</span>
+          </app-label>
+          <app-input-field type="text" [value]="nom" (valueChange)="updateNom($event)" id="nom" name="nom" placeholder="Entrez votre nom" />
         </div>
         <!-- Email -->
         <div>
           <app-label>
             Email <span class="text-error-500">*</span>
           </app-label>
-          <app-input-field type="email" [value]="email" id="email" name="email" placeholder="Enter your email" />
+          <app-input-field type="email" [value]="mail" (valueChange)="updateMail($event)" id="mail" name="mail" placeholder="Entrez votre email" />
         </div>
-        <!-- Password -->
+        <!-- Numéro -->
         <div>
-          <app-label>Password <span class="text-error-500">*</span></app-label>
+          <app-label>
+            Numéro <span class="text-error-500">*</span>
+          </app-label>
+          <app-input-field type="tel" [value]="numero" (valueChange)="updateNumero($event)" id="numero" name="numero" placeholder="Entrez votre numéro" />
+        </div>
+        <!-- Mot de passe -->
+        <div>
+          <app-label>Mot de passe <span class="text-error-500">*</span></app-label>
           <div class="relative">
-            <app-input-field [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
-              [value]="password" name="password" class="form-input" required />
+            <app-input-field [type]="showPassword ? 'text' : 'password'" placeholder="Entrez votre mot de passe"
+              [value]="mdp" (valueChange)="updateMdp($event)" name="mdp" class="form-input" required />
             <span (click)="togglePasswordVisibility()" class="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2">
               @if (showPassword) {
               <svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +128,8 @@
         <!-- Button -->
         <div>
           <button
+            (click)="onSignIn()"
+            type="button"
             class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
             Sign Up
           </button>
