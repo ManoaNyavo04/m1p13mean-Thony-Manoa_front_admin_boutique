@@ -80,6 +80,7 @@
           </h2>
           <ul class="flex flex-col gap-1">
             @for (nav of navItems; track $index;let i = $index) {
+            @if (canShowNavItem(nav)) {
             <li>
               @if (nav.subItems) {
                 <button
@@ -161,7 +162,7 @@
                 >
                   <ul class="mt-2 space-y-1 ml-9">
                     @for (subItem of nav.subItems; track $index) {
-                    <li>
+                    @if (canShowSubItem(subItem)) {`r`n                    <li>
                       <a
                         [routerLink]="subItem.path"
                         routerLinkActive=""
@@ -207,8 +208,7 @@
                         </span>
                       </a>
                     </li>
-                    }
-                  </ul>
+                    }`r`n                    }`r`n                  </ul>
                 </div>
               } @else {
                 @if (nav.path) {
@@ -238,6 +238,7 @@
                 }
               }
             </li>
+            }
             }
           </ul>
         </div>
@@ -367,7 +368,7 @@
                 >
                   <ul class="mt-2 space-y-1 ml-9">
                     @for (subItem of nav.subItems; track $index) {
-                    <li>
+                    @if (canShowSubItem(subItem)) {`r`n                    <li>
                       <a
                         [routerLink]="subItem.path"
                         routerLinkActive=""
@@ -413,8 +414,7 @@
                         </span>
                       </a>
                     </li>
-                    }
-                  </ul>
+                    }`r`n                    }`r`n                  </ul>
                 </div>
               } @else {
                 @if (nav.path) {

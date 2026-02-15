@@ -1,0 +1,31 @@
+<app-modal [isOpen]="isOpen" (close)="onClose()">
+  <div class="p-6">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+      {{ isEditMode ? 'Modifier la catégorie' : 'Nouvelle catégorie' }}
+    </h2>
+    
+    <div class="space-y-4">
+      <div>
+        <app-label [for]="'categorie'">Nom de la catégorie</app-label>
+        <app-input-field
+          [id]="'categorie'"
+          [name]="'categorie'"
+          [type]="'text'"
+          [value]="categorieForm.categorie"
+          (valueChange)="categorieForm.categorie = $event"
+          [placeholder]="'Ex: Électronique'"
+        />
+      </div>
+
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <app-button variant="outline" (click)="onClose()">
+        Annuler
+      </app-button>
+      <app-button (click)="onSave()">
+        {{ isEditMode ? 'Modifier' : 'Créer' }}
+      </app-button>
+    </div>
+  </div>
+</app-modal>
