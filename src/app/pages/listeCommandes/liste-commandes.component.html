@@ -1,0 +1,39 @@
+<div class="p-6">
+  <h1 class="mb-6 text-2xl font-semibold text-gray-800 dark:text-white/90">Liste des Commandes</h1>
+  
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+    <div class="max-w-full overflow-x-auto">
+      <table class="min-w-full">
+        <thead class="border-b border-gray-100 dark:border-white/[0.05]">
+          <tr>
+            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Client</th>
+            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Date</th>
+            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Lieu</th>
+            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Statut</th>
+            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
+          @for (commande of commandes; track commande._id) {
+          <tr>
+            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ commande.utilisateur.nom }}</td>
+            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ commande.date | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ commande.lieu }}</td>
+            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+              <span [ngClass]="getEtatClass(commande.etat)">{{ getEtatString(commande.etat) }}</span>
+            </td>
+            <td class="px-5 py-4">
+              @if (commande.etat === ETAT.A_VALIDER) {
+              <div class="flex gap-2">
+                <button (click)="validerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600">Valider</button>
+                <button (click)="annulerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600">Annuler</button>
+              </div>
+              }
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

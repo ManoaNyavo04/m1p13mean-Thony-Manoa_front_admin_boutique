@@ -19,6 +19,7 @@ import { SignInComponent } from './pages/admin/sign-in/sign-in.component';
 import { SignInComponent as BoutiqueSignInComponent } from './pages/boutique/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/auth-pages/sign-up/sign-up.component';
 import { CalenderComponent } from './pages/calender/calender.component';
+import { ListeCommandesComponent } from './pages/listeCommandes/liste-commandes.component';
 import { CategorieComponent } from './pages/categorie/categorie.component';
 import { ProduitComponent } from './pages/produit/produit.component';
 import { authAdminGuard, authBoutiqueGuard } from './shared/guards/auth.guard';
@@ -45,8 +46,6 @@ export const routes: Routes = [
         component:CalenderComponent,
         title:'Angular Calender | TailAdmin - Angular Admin Dashboard Template'
       },
-     
-      
       {
         path:'profile',
         component:ProfileComponent,
@@ -113,6 +112,11 @@ export const routes: Routes = [
         component:VideosComponent,
         title:'Angular Videos Dashboard | TailAdmin - Angular Admin Dashboard Template',
         //canActivate: [authAdminGuard]
+      },
+      {
+        path:'liste-commandes',
+        component:ListeCommandesComponent,
+        title:'Liste des Commandes | TailAdmin'
       },
     ]
   },
