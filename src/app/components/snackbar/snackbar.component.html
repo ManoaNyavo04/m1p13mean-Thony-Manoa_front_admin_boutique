@@ -1,0 +1,49 @@
+<div style="position: fixed; top: 20px; right: 20px; z-index: 99999;">
+  @if (messages.length > 0) {
+    @for (msg of messages; track msg.id) {
+      <div 
+        style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          min-width: 300px;
+          padding: 12px 16px;
+          margin-bottom: 8px;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          color: white;
+          font-family: system-ui, -apple-system, sans-serif;
+          animation: slideIn 0.3s ease-out;"
+        [style.background-color]="msg.type === 'success' ? '#22c55e' : msg.type === 'error' ? '#ef4444' : msg.type === 'warning' ? '#eab308' : '#3b82f6'">
+        <span style="font-size: 20px; font-weight: bold;">{{ getIcon(msg.type) }}</span>
+        <span style="flex: 1;">{{ msg.message }}</span>
+        <button 
+          (click)="removeMessage(msg.id)"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;">
+          ×
+        </button>
+      </div>
+    }
+  }
+</div>
+
+<style>
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+</style>

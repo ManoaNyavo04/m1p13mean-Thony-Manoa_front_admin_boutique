@@ -19,13 +19,13 @@
 
     </div>
 
-    <div class="flex justify-end gap-3 mt-6">
-      <app-button variant="outline" (click)="onClose()">
+    <div class="flex justify-end gap-3 mt-6 ">
+      <button class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600" variant="outline" (click)="onClose()">
         Annuler
-      </app-button>
-      <app-button (click)="onSave()">
+      </button>
+      <button class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600" (click)="onSave()">
         {{ isEditMode ? 'Modifier' : 'Créer' }}
-      </app-button>
+      </button>
     </div>
   </div>
 </app-modal>

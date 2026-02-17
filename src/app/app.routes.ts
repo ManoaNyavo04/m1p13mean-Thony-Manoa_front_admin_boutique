@@ -23,6 +23,7 @@ import { ListeCommandesComponent } from './pages/listeCommandes/liste-commandes.
 import { CategorieComponent } from './pages/categorie/categorie.component';
 import { ProduitComponent } from './pages/produit/produit.component';
 import { authAdminGuard, authBoutiqueGuard } from './shared/guards/auth.guard';
+import { BoutiqueComponent } from './pages/boutique/crud/boutique.component';
 
 export const routes: Routes = [
   {
@@ -128,6 +129,12 @@ export const routes: Routes = [
         path:'categories',
         component:CategorieComponent,
         title:'Gestion des Catégories | TailAdmin',
+        canActivate: [authAdminGuard]
+      },
+      {
+        path:'liste-boutique',
+        component:BoutiqueComponent,
+        title:'Liste des boutiques',
         canActivate: [authAdminGuard]
       },
     ]
