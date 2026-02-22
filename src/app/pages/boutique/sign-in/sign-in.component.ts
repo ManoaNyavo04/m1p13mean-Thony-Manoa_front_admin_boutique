@@ -29,8 +29,8 @@ export class SignInComponent {
     console.log('Boutique login attempt:', credentials.email);
     this.utilisateursService.loginBoutique(credentials.email, credentials.password).subscribe({
       next: (response) => {
-        console.log('Boutique login response:', response);
         this.authService.setToken(response.token);
+        this.utilisateursService.setUserInfo(response.user.nom, response.user.mail);
         this.router.navigate(['/boutique/produit']);
       },
       error: (error) => {

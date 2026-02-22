@@ -15,6 +15,10 @@ export class CommandesService {
     return this.http.get(`${this.apiUrl}/commande/`);
   }
 
+  getCommandeById(commandeId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/commande/${commandeId}`);
+  }
+
   validateCommande(commandeId: number): Observable<any> {
     return this.http.put(`${this.apiUrl}/commande/validate/${commandeId}`, {});
   }
