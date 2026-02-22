@@ -35,4 +35,15 @@ export class UtilisateursService {
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
+
+  setUserInfo(nom: string, mail: string): void {
+    const existingInfo = this.getUserInfo();
+    const userInfo = existingInfo ? { ...existingInfo, nom, mail } : { nom, mail };
+    localStorage.setItem('user_info', JSON.stringify(userInfo));
+  }
+
+  getUserInfo(): { nom: string; mail: string } | null {
+    const userInfo = localStorage.getItem('user_info');
+    return userInfo ? JSON.parse(userInfo) : null;
+  }
 }

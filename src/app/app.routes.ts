@@ -24,6 +24,7 @@ import { CategorieComponent } from './pages/categorie/categorie.component';
 import { ProduitComponent } from './pages/produit/produit.component';
 import { authAdminGuard, authBoutiqueGuard } from './shared/guards/auth.guard';
 import { BoutiqueComponent } from './pages/boutique/crud/boutique.component';
+import {DashboardBoutiqueComponent} from "./pages/dashboard-boutique/dashboard-boutique.component";
 
 export const routes: Routes = [
   {
@@ -176,6 +177,12 @@ export const routes: Routes = [
         title:'Gestion des Produits | TailAdmin',
         canActivate: [authBoutiqueGuard]
       },
+      {
+        path: 'dashboard-boutique',
+        component: DashboardBoutiqueComponent,
+        title:'Dashboard',
+        canActivate: [authBoutiqueGuard]
+      }
     ]
   },
   // auth pages

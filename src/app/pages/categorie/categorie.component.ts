@@ -9,8 +9,6 @@ import { SnackbarService } from '../../services/snackbar.service';
 @Component({
   selector: 'app-categorie',
   imports: [
-    ButtonComponent,
-    CheckboxComponent,
     CategorieModalComponent,
     FormsModule
   ],

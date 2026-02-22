@@ -11,7 +11,6 @@ import { SnackbarService } from '../../services/snackbar.service';
   selector: 'app-produit',
   imports: [
     ButtonComponent,
-    CheckboxComponent,
     ProduitModalComponent,
     FormsModule
   ],

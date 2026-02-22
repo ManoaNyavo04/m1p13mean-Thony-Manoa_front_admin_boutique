@@ -13,6 +13,8 @@ import { NgClass, DatePipe } from '@angular/common';
 export class ListeCommandesComponent implements OnInit {
 
   commandes: any[] = [];
+  selectedCommande: any = null;
+  showDetails = false;
   ETAT = COMMANDE.ETAT;
 
   constructor(private commandesService: CommandesService) {}
@@ -77,5 +79,22 @@ export class ListeCommandesComponent implements OnInit {
         console.error('Erreur annulation commande:', error);
       }
     });
+  }
+
+  showCommandeDetails(commandeId: string): void {
+    this.commandesService.getCommandeById(commandeId).subscribe({
+      next: (response) => {
+        this.selectedCommande = response;
+        this.showDetails = true;
+      },
+      error: (error) => {
+        console.error('Erreur récupération détails:', error);
+      }
+    });
+  }
+
+  closeDetails(): void {
+    this.showDetails = false;
+    this.selectedCommande = null;
   }
 }

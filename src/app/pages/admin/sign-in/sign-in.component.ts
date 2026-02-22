@@ -31,6 +31,7 @@ export class SignInComponent {
       next: (response) => {
         console.log('Admin login response:', response);
         this.authService.setToken(response.token);
+        this.utilisateursService.setUserInfo(response.user.nom, response.user.mail);
         this.router.navigate(['/admin/categories']);
       },
       error: (error) => {

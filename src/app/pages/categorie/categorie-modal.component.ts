@@ -8,7 +8,6 @@ import { InputFieldComponent } from '../../shared/components/form/input/input-fi
   selector: 'app-categorie-modal',
   imports: [
     ModalComponent,
-    ButtonComponent,
     LabelComponent,
     InputFieldComponent
   ],

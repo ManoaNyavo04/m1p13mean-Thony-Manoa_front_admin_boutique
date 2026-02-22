@@ -23,12 +23,13 @@
               <span [ngClass]="getEtatClass(commande.etat)">{{ getEtatString(commande.etat) }}</span>
             </td>
             <td class="px-5 py-4">
-              @if (commande.etat === ETAT.A_VALIDER) {
               <div class="flex gap-2">
-                <button (click)="validerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600">Valider</button>
-                <button (click)="annulerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600">Annuler</button>
+                <button (click)="showCommandeDetails(commande._id)" class="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">Détails</button>
+                @if (commande.etat === ETAT.A_VALIDER) {
+                  <button (click)="validerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600">Valider</button>
+                  <button (click)="annulerCommande(commande._id)" class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600">Annuler</button>
+                }
               </div>
-              }
             </td>
           </tr>
           }
@@ -37,3 +38,66 @@
     </div>
   </div>
 </div>
+
+<!-- Details Modal -->
+@if (showDetails && selectedCommande) {
+<div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50" (click)="closeDetails()">
+  <div class="bg-white dark:bg-gray-900 rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-xl" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Détails de la commande</h2>
+        <button (click)="closeDetails()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Client</p>
+          <p class="font-medium text-gray-800 dark:text-white/90">{{ selectedCommande.utilisateur.nom }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Date</p>
+          <p class="font-medium text-gray-800 dark:text-white/90">{{ selectedCommande.date | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Lieu</p>
+          <p class="font-medium text-gray-800 dark:text-white/90">{{ selectedCommande.lieu }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Statut</p>
+          <span [ngClass]="getEtatClass(selectedCommande.etat)">{{ getEtatString(selectedCommande.etat) }}</span>
+        </div>
+        
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Produits</p>
+          <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-200 dark:border-gray-800">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Produit</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Boutique</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Prix unitaire</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Quantité</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Total</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                @for (item of selectedCommande.produits; track item._id) {
+                <tr>
+                  <td class="px-4 py-2 text-sm text-gray-800 dark:text-white/90">{{ item.produit.nomProduit }}</td>
+                  <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">{{ item.boutique.nom }}</td>
+                  <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">{{ item.prix }} MGA</td>
+                  <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">{{ item.nombre }}</td>
+                  <td class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-white/90">{{ item.prixTotal }} MGA</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
