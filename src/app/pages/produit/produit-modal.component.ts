@@ -20,11 +20,21 @@ import { InputFieldComponent } from '../../shared/components/form/input/input-fi
 export class ProduitModalComponent {
   @Input() isOpen = false;
   @Input() isEditMode = false;
-  @Input() produitForm: any = { nomProduit: '', prix :'', nombre :'', categorie: ''  };
+  @Input() produitForm: any = { nomProduit: '', prix :'', nombre :'', categorie: '', image: null };
   @Input() categories: any[] = [];
   
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
+
+  selectedFileName: string = '';
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.produitForm.image = file;
+      this.selectedFileName = file.name;
+    }
+  }
 
   onClose() {
     this.close.emit();// Émet l'événement "close"

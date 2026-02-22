@@ -16,14 +16,14 @@ export class ProduitService {
       return this.http.get(`${this.apiUrl}/boutique/mes-produits`);
     }
 
-    createProduit(data: any): Observable<any> {
-      return this.http.post(`${this.apiUrl}/produit/create-produit`, data);
+    createProduit(formData: FormData): Observable<any> {
+      return this.http.post(`${this.apiUrl}/produit/create-produit`, formData);
     }
 
-    updateProduit(produit: any): Observable<any> {
+    updateProduit(id: string, formData: FormData): Observable<any> {
       return this.http.put(
-        `${this.apiUrl}/produit/modifier-produit/${produit._id}`,
-        produit
+        `${this.apiUrl}/produit/modifier-produit/${id}`,
+        formData
       );
     }
 

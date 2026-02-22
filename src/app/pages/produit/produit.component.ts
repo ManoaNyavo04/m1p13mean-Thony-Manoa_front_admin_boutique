@@ -27,7 +27,7 @@ export class ProduitComponent implements OnInit {
   selectedCategorie: any = null;
   
   produitForm = {
-    nomProduit: '', prix :'', nombre :'', categorie: ''
+    nomProduit: '', prix :'', nombre :'', categorie: '', image: null as File | null
   };
 
   selectedRows: string[] = [];
@@ -111,21 +111,25 @@ export class ProduitComponent implements OnInit {
 
   openCreateModal() {
     this.isEditMode = false;
-    this.produitForm = { nomProduit: '', prix :'', nombre :'', categorie: '' };
+    this.produitForm = { nomProduit: '', prix :'', nombre :'', categorie: '', image: null };
     this.isModalOpen = true;
   }
 
   openEditModal(produit: any) {
      console.log(produit); 
     this.isEditMode = true;
-    this.produitForm = { ...produit }; // Copie les données dans le formulaire
-    this.selectedCategorie = { ...produit }; // Garde une copie de la catégorie
+    this.produitForm = { 
+      ...produit, 
+      categorie: produit.categorie._id,
+      image: null
+    };
+    this.selectedCategorie = { ...produit };
     this.isModalOpen = true;
   }
 
   closeModal() {
     this.isModalOpen = false;
-    this.produitForm = { nomProduit: '', prix :'', nombre :'', categorie: ''};
+    this.produitForm = { nomProduit: '', prix :'', nombre :'', categorie: '', image: null};
   }
 
   ajouterProduit(formData: any) {
@@ -138,10 +142,20 @@ export class ProduitComponent implements OnInit {
       this.snackbarService.error('Tous les champs sont requis');
       return;
     }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('nomProduit', formData.nomProduit);
+    formDataToSend.append('prix', formData.prix.toString());
+    formDataToSend.append('nombre', formData.nombre.toString());
+    formDataToSend.append('categorie', typeof formData.categorie === 'object' ? formData.categorie._id : formData.categorie);
+    
+    if (formData.image instanceof File) {
+      formDataToSend.append('image', formData.image);
+    }
     
     if (this.isEditMode) {
       console.log('Mode EDITION');
-      this.produitService.updateProduit(formData).subscribe({
+      this.produitService.updateProduit(formData._id, formDataToSend).subscribe({
         next: () => {
           console.log('SUCCESS - Modification');
           this.snackbarService.success('Produit modifié avec succès');
@@ -150,14 +164,12 @@ export class ProduitComponent implements OnInit {
         },
         error: (error) => {
           console.error('ERROR - Modification:', error);
-          console.error('Détails erreur:', error.error);
           this.snackbarService.error('Erreur lors de la modification');
         }
       });
     } else {
       console.log('Mode CREATION');
-      console.log('Données à envoyer:', formData);
-      this.produitService.createProduit(formData).subscribe({
+      this.produitService.createProduit(formDataToSend).subscribe({
         next: () => {
           console.log('SUCCESS - Création');
           this.snackbarService.success('Produit créé avec succès');
@@ -166,12 +178,16 @@ export class ProduitComponent implements OnInit {
         },
         error: (error) => {
           console.error('ERROR - Création:', error);
-          console.error('Détails erreur:', error.error);
           const errorMsg = error.error?.error || error.error?.message || 'Erreur inconnue';
           this.snackbarService.error('Erreur: ' + errorMsg);
         }
       });
     }
+  }
+
+  getImageUrl(imagePath: string | null): string {
+    if (!imagePath) return '/images/default-product.png';
+    return `http://localhost:3000/${imagePath}`;
   }
 
 }
