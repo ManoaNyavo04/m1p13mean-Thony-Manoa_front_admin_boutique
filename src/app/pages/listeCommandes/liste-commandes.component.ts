@@ -16,19 +16,52 @@ export class ListeCommandesComponent implements OnInit {
   selectedCommande: any = null;
   showDetails = false;
   ETAT = COMMANDE.ETAT;
+  
+  // Pagination
+  currentPage = 1;
+  itemsPerPage = 20;
+  totalPages = 0;
+  totalItems = 0;
 
   constructor(private commandesService: CommandesService) {}
 
   ngOnInit(): void {
-    this.commandesService.getCommandes().subscribe({
+    this.loadCommandes();
+  }
+
+  loadCommandes(): void {
+    this.commandesService.getCommandes(this.currentPage, this.itemsPerPage).subscribe({
       next: (response) => {
         console.log('Commandes:', response);
-        this.commandes = response;
+        this.commandes = response.data || response;
+        this.totalItems = response.totalPages || this.commandes.length;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
       },
       error: (error) => {
         console.error('Error fetching commandes:', error);
       }
     });
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadCommandes();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadCommandes();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadCommandes();
+    }
   }
 
   getEtatString(etat: number): string {
@@ -61,7 +94,7 @@ export class ListeCommandesComponent implements OnInit {
     this.commandesService.validateCommande(commandeId).subscribe({
       next: (response) => {
         console.log('Commande validée:', response);
-        this.ngOnInit();
+        this.loadCommandes();
       },
       error: (error) => {
         console.error('Erreur validation commande:', error);
@@ -73,7 +106,7 @@ export class ListeCommandesComponent implements OnInit {
     this.commandesService.cancelCommande(commandeId).subscribe({
       next: (response) => {
         console.log('Commande annulée:', response);
-        this.ngOnInit();
+        this.loadCommandes();
       },
       error: (error) => {
         console.error('Erreur annulation commande:', error);

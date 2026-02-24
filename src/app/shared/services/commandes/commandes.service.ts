@@ -11,8 +11,8 @@ export class CommandesService {
 
   constructor(private http: HttpClient) {}
 
-  getCommandes(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/commande/`);
+  getCommandes(page: number = 1, limit: number = 20): Observable<any> {
+    return this.http.get(`${this.apiUrl}/commande/?page=${page}&limit=${limit}`);
   }
 
   getCommandeById(commandeId: string): Observable<any> {
