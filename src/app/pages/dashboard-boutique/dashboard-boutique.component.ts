@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DashboardBoutiqueService } from '../../shared/services/dashboard/dashboard.boutique.service';
 
 @Component({
   selector: 'app-dashboard-boutique',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard-boutique.component.html',
   styles: ``
 })
 export class DashboardBoutiqueComponent implements OnInit {
+  // Date filters
+  dateDebut: string = '';
+  dateFin: string = '';
+
   // Nombre de commande total
   nombreInitie = 0;
   nombrePayer = 0;
@@ -37,10 +42,24 @@ export class DashboardBoutiqueComponent implements OnInit {
     return (montant / this.getMaxMontant()) * maxHeight;
   }
 
-  constructor(private dashboardService: DashboardBoutiqueService) {}
+  constructor(private dashboardService: DashboardBoutiqueService) {
+    this.initializeDates();
+  }
+
+  initializeDates(): void {
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+    
+    this.dateDebut = startOfYear.toISOString().split('T')[0];
+    this.dateFin = today.toISOString().split('T')[0];
+  }
 
   ngOnInit(): void {
-    this.dashboardService.getDashboardData().subscribe({
+    this.loadDashboardData();
+  }
+
+  loadDashboardData(): void {
+    this.dashboardService.getDashboardData(this.dateDebut, this.dateFin).subscribe({
       next: (response) => {
         this.nombrePayer = response.payer;
         this.nombreInitie = response.aValider;
@@ -64,5 +83,18 @@ export class DashboardBoutiqueComponent implements OnInit {
         console.error('Erreur récupération dashboard:', error);
       }
     });
+  }
+
+  applyFilter(): void {
+    if (this.dateDebut && this.dateFin) {
+      this.loadDashboardData();
+    } else {
+      console.warn('Veuillez sélectionner les deux dates');
+    }
+  }
+
+  resetFilter(): void {
+    this.initializeDates();
+    this.loadDashboardData();
   }
 }

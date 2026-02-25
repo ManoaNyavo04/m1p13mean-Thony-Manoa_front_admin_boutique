@@ -11,7 +11,13 @@ export class DashboardBoutiqueService {
 
   constructor(private http: HttpClient) {}
 
-  getDashboardData(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/dashboard/boutique`);
+  getDashboardData(startDate?: string, endDate?: string): Observable<any> {
+    let url = `${this.apiUrl}/dashboard/boutique`;
+    
+    if (startDate && endDate) {
+      url += `?startDate=${startDate}&endDate=${endDate}`;
+    }
+    
+    return this.http.get(url);
   }
 }

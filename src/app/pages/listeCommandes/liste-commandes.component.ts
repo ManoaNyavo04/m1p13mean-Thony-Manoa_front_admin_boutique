@@ -19,7 +19,7 @@ export class ListeCommandesComponent implements OnInit {
   
   // Pagination
   currentPage = 1;
-  itemsPerPage = 20;
+  itemsPerPage = 10;
   totalPages = 0;
   totalItems = 0;
 
@@ -32,9 +32,8 @@ export class ListeCommandesComponent implements OnInit {
   loadCommandes(): void {
     this.commandesService.getCommandes(this.currentPage, this.itemsPerPage).subscribe({
       next: (response) => {
-        console.log('Commandes:', response);
-        this.commandes = response.data || response;
-        this.totalItems = response.totalPages || this.commandes.length;
+        this.commandes = response?.commandes || response;
+        this.totalItems = response.total || this.commandes.length;
         this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
       },
       error: (error) => {
@@ -129,5 +128,9 @@ export class ListeCommandesComponent implements OnInit {
   closeDetails(): void {
     this.showDetails = false;
     this.selectedCommande = null;
+  }
+
+  getTotalCommande(): number {
+    return this.selectedCommande?.prixTotal || 0;
   }
 }

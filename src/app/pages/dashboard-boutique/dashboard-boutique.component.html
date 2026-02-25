@@ -1,6 +1,40 @@
 <div class="p-6">
   <h1 class="mb-6 text-2xl font-semibold text-gray-800 dark:text-white/90">Dashboard Boutique</h1>
 
+  <!-- Date Filter -->
+  <div class="mb-6 p-4 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+    <div class="flex flex-wrap items-end gap-4">
+      <div class="flex-1 min-w-[200px]">
+        <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Date de début</label>
+        <input 
+          type="date" 
+          [(ngModel)]="dateDebut"
+          class="w-full px-4 py-2 border border-gray-200 rounded-lg dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Date de fin</label>
+        <input 
+          type="date" 
+          [(ngModel)]="dateFin"
+          class="w-full px-4 py-2 border border-gray-200 rounded-lg dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div class="flex gap-2">
+        <button 
+          (click)="applyFilter()"
+          class="px-6 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors">
+          Filtrer
+        </button>
+        <button 
+          (click)="resetFilter()"
+          class="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Stats Cards Row 1 -->
   <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2 lg:grid-cols-4">
     <!-- Prix Initié -->
