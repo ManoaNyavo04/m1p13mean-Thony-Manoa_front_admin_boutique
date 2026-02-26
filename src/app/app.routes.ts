@@ -28,6 +28,7 @@ import { BoutiqueComponent } from './pages/boutique/crud/boutique.component';
 import {DashboardBoutiqueComponent} from "./pages/dashboard-boutique/dashboard-boutique.component";
 
 import { AcheteurComponent } from './pages/acheteur/acheteur.component';
+import { StockComponent } from './pages/stock/stock.component';
 
 
 export const routes: Routes = [
@@ -184,13 +185,19 @@ export const routes: Routes = [
       {
         path:'produit',
         component:ProduitComponent,
-        title:'Gestion des Produits | TailAdmin',
+        title:'Gestion des Produits',
         canActivate: [authBoutiqueGuard]
       },
       {
         path: 'dashboard-boutique',
         component: DashboardBoutiqueComponent,
         title:'Dashboard',
+        canActivate: [authBoutiqueGuard]
+      },
+      {
+        path: 'etat-stock',
+        component: StockComponent,
+        title:'Etat de stock',
         canActivate: [authBoutiqueGuard]
       }
     ]
