@@ -3,6 +3,7 @@ import { LabelComponent } from '../../form/label/label.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { InputFieldComponent } from '../../form/input/input-field.component';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-signin-form',
@@ -10,7 +11,8 @@ import { FormsModule } from '@angular/forms';
     LabelComponent,
     ButtonComponent,
     InputFieldComponent,
-    FormsModule
+    FormsModule,
+    RouterModule
 ],
   templateUrl: './signin-form.component.html',
   styles: ``
