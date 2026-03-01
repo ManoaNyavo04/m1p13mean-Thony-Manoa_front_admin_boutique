@@ -1,29 +1,60 @@
 <div class="p-6">
-  <h1 class="mb-6 text-2xl font-semibold text-gray-800 dark:text-white/90">Liste des Boutiques</h1>
-  
-  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+  <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 dark:border-white/[0.05] dark:bg-white/[0.03]">
+    <div class="flex flex-col gap-4 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+          Liste des Boutiques
+        </h3>
+      </div>
+      <div class="flex items-center gap-3">
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Rechercher..."
+          class="px-3 py-1.5 text-sm border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+      </div>
+    </div>
     <div class="max-w-full overflow-x-auto">
       <table class="min-w-full">
-        <thead class="border-b border-gray-100 dark:border-white/[0.05]">
+        <thead class="px-6 py-3.5 border-t border-gray-100 border-y bg-gray-50 dark:border-white/[0.05] dark:bg-gray-900">
           <tr>
-            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Boutique</th>
-            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Mail</th>
-            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Contact</th>
-            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Date</th>
-            <th class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Actions</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Boutique</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Mail</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Contact</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Date</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Statut</th>
+            <th class="px-6 py-3 font-medium text-gray-500 sm:px-6 text-theme-xs dark:text-gray-400 text-start">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
-          @for (boutique of boutiques; track boutique._id) {
+        <tbody>
+          @if (paginatedBoutiques.length === 0) {
           <tr>
-            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ boutique.nom }}</td>
-            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ boutique.mail }}</td>
-            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ boutique.contact }}</td>
-            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">{{ boutique.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-            <td class="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+            <td colspan="6" class="px-4 sm:px-6 py-8 text-center">
+              <p class="text-gray-500 dark:text-gray-400">
+                @if (searchTerm) {
+                  Aucune boutique trouvée pour "{{ searchTerm }}".
+                } @else {
+                  Aucune boutique trouvée.
+                }
+              </p>
+            </td>
+          </tr>
+          }
+          @for (boutique of paginatedBoutiques; track boutique._id) {
+          <tr>
+            <td class="px-4 sm:px-6 py-3.5">
+              <p class="text-gray-700 text-theme-sm dark:text-gray-400">{{ boutique.nom }}</p>
+            </td>
+            <td class="px-4 sm:px-6 py-3.5">
+              <p class="text-gray-700 text-theme-sm dark:text-gray-400">{{ boutique.mail }}</p>
+            </td>
+            <td class="px-4 sm:px-6 py-3.5">
+              <p class="text-gray-700 text-theme-sm dark:text-gray-400">{{ boutique.contact }}</p>
+            </td>
+            <td class="px-4 sm:px-6 py-3.5">
+              <p class="text-gray-700 text-theme-sm dark:text-gray-400">{{ boutique.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+            </td>
+            <td class="px-4 sm:px-6 py-3.5">
               <span [ngClass]="getEtatClass(boutique.etat)">{{ getEtatString(boutique.etat) }}</span>
             </td>
-            <td class="px-5 py-4">
+            <td class="px-4 sm:px-6 py-3.5">
               @if (boutique.etat === ETAT_BOUTIQUE.A_VALIDER) {
               <div class="flex gap-2">
                 <button (click)="validerBoutique(boutique._id)" class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600">Valider</button>
@@ -37,4 +68,33 @@
       </table>
     </div>
   </div>
+
+  <!-- Pagination -->
+  @if (totalPages > 1) {
+  <div class="flex items-center justify-between px-6 py-4 mt-4 border border-gray-200 rounded-2xl bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+    <div class="text-sm text-gray-500 dark:text-gray-400">
+      Page {{ currentPage }} sur {{ totalPages }} ({{ filteredBoutiques.length }} résultat(s))
+    </div>
+    <div class="flex gap-2">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"
+        class="px-3 py-1 text-sm border rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
+        Précédent
+      </button>
+      @for (page of pages; track page) {
+      @if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
+      <button (click)="goToPage(page)" [class.bg-blue-800]="page === currentPage" [class.text-white]="page === currentPage"
+        class="px-3 py-1 text-sm border rounded hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
+        {{ page }}
+      </button>
+      } @else if (page === currentPage - 2 || page === currentPage + 2) {
+      <span class="px-2 py-1 text-sm">...</span>
+      }
+      }
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages"
+        class="px-3 py-1 text-sm border rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
+        Suivant
+      </button>
+    </div>
+  </div>
+  }
 </div>

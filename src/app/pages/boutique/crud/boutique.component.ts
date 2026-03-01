@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { BoutiqueService } from '../../../shared/services/boutique/boutique.service';
 import { UTILISATEUR } from '../../../shared/constant/utilisateurs.constant';
 import { NgClass, DatePipe } from '@angular/common';
@@ -7,7 +7,7 @@ import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-boutique',
-  imports: [NgClass, DatePipe],
+  imports: [NgClass, DatePipe, FormsModule],
   templateUrl: './boutique.component.html',
   styles: ``
 })
@@ -16,7 +16,17 @@ export class BoutiqueComponent implements OnInit {
   ETAT_BOUTIQUE = UTILISATEUR.ETAT;
 
   selectedRows: string[] = []; 
-  selectAll: boolean = false; 
+  selectAll: boolean = false;
+
+  // Pagination
+  filteredBoutiques: any[] = [];
+  paginatedBoutiques: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 0;
+  
+  // Recherche
+  searchTerm: string = ''; 
 
   constructor(
     private boutiqueService: BoutiqueService,
@@ -31,6 +41,7 @@ export class BoutiqueComponent implements OnInit {
     this.boutiqueService.getListeBoutique().subscribe({
       next: (data) => {
         this.boutiques = data;
+        this.applyFilters();
         console.log('boutique chargées:', this.boutiques);
       },
       error: (error) => {
@@ -38,6 +49,38 @@ export class BoutiqueComponent implements OnInit {
         this.snackbarService.error('Erreur lors du chargement des boutiques');
       }
     });
+  }
+
+  applyFilters() {
+    this.filteredBoutiques = this.boutiques.filter(boutique =>
+      boutique.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      boutique.mail.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      boutique.contact.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+    this.totalPages = Math.ceil(this.filteredBoutiques.length / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedBoutiques = this.filteredBoutiques.slice(start, end);
+  }
+
+  onSearchChange() {
+    this.applyFilters();
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   getEtatString(etat: number): string {
