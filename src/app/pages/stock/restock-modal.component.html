@@ -1,0 +1,76 @@
+<app-modal [isOpen]="isOpen" (close)="onClose()">
+  <div class="p-6">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+      Nouvelle produit
+    </h2>
+
+    <div class="space-y-4">
+      <div>
+        <app-label [for]="'produit'">Produit</app-label>
+        <div class="relative">
+          <input
+            type="text"
+            id="produit"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+            (focus)="showDropdown = true"
+            placeholder="Rechercher un produit..."
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          />
+          @if (showDropdown && filteredProduits.length > 0) {
+          <div class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+            @for (produit of filteredProduits; track produit._id) {
+            <div
+              (click)="selectProduit(produit)"
+              class="px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-white">
+              {{ produit.nomProduit }}
+            </div>
+            }
+          </div>
+          }
+          @if (selectedProduitName) {
+          <p class="mt-1 text-sm text-green-600 dark:text-green-400">Sélectionné: {{ selectedProduitName }}</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <app-label [for]="'prix'">Prix</app-label>
+        <app-input-field
+          [id]="'prix'"
+          [name]="'prix'"
+          [type]="'number'"
+          [value]="restockForm.prix"
+          (valueChange)="restockForm.prix = $event"
+          [placeholder]="'Ex: 999'"
+        />
+      </div>
+
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <app-label [for]="'nombre'">Nombre</app-label>
+        <app-input-field
+          [id]="'nombre'"
+          [name]="'nombre'"
+          [type]="'number'"
+          [value]="restockForm.nombre"
+          (valueChange)="restockForm.nombre = $event"
+          [placeholder]="'Ex: 10'"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6 ">
+      <button class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600" variant="outline" (click)="onClose()">
+        Annuler
+      </button>
+      <button class="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-600" (click)="onSave()">
+        {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+      </button>
+    </div>
+  </div>
+</app-modal>

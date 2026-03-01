@@ -1,9 +1,6 @@
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LabelComponent } from '../../form/label/label.component';
-import { CheckboxComponent } from '../../form/input/checkbox.component';
 import { InputFieldComponent } from '../../form/input/input-field.component';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 
@@ -11,9 +8,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-signup-form',
   imports: [
     LabelComponent,
-    CheckboxComponent,
     InputFieldComponent,
-    RouterModule,
     FormsModule
 ],
   templateUrl: './signup-form.component.html',
@@ -22,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 export class SignupFormComponent {
 
   showPassword = false;
-  isChecked = false;
 
   @Output() registerSubmit = new EventEmitter<{ nom: string; mail: string; numero: string; mdp: string }>();
 

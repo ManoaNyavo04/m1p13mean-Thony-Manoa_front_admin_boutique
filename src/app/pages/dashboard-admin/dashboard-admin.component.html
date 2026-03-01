@@ -1,0 +1,76 @@
+<div class="p-6">
+  <h1 class="mb-6 text-2xl font-semibold text-gray-800 dark:text-white/90">Dashboard Admin</h1>
+
+  <!-- Filtres de dates -->
+  <div class="mb-6 p-4 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+    <h3 class="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">Filtrer par période</h3>
+    <div class="flex flex-wrap gap-3">
+      <input type="date" [(ngModel)]="dateDebut" (change)="onFilterChange()" 
+        class="px-3 py-2 text-sm border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+      <input type="date" [(ngModel)]="dateFin" (change)="onFilterChange()"
+        class="px-3 py-2 text-sm border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2 lg:grid-cols-4">
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total Commandes</p>
+      <p class="mt-2 text-3xl font-semibold text-purple-600 dark:text-purple-400">{{ totalCommandes }}</p>
+      <p class="mt-1 text-xs text-gray-400">Filtré par dates</p>
+    </div>
+
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total Boutiques</p>
+      <p class="mt-2 text-3xl font-semibold text-blue-600 dark:text-blue-400">{{ totalBoutiques }}</p>
+      <p class="mt-1 text-xs text-gray-400">Toutes les boutiques</p>
+    </div>
+
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total Acheteurs</p>
+      <p class="mt-2 text-3xl font-semibold text-green-600 dark:text-green-400">{{ totalAcheteurs }}</p>
+      <p class="mt-1 text-xs text-gray-400">Tous les acheteurs</p>
+    </div>
+
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Boutiques Actives</p>
+      <p class="mt-2 text-3xl font-semibold text-orange-600 dark:text-orange-400">{{ venteParBoutique.length }}</p>
+      <p class="mt-1 text-xs text-gray-400">Avec ventes</p>
+    </div>
+  </div>
+
+  <!-- Ventes par Boutique -->
+  <div class="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2">
+    <!-- Liste -->
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Ventes par Boutique</h2>
+      <div class="space-y-3">
+        @for (boutique of venteParBoutique; track boutique._id) {
+        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium text-gray-800 dark:text-white/90">{{ boutique.boutique }}</span>
+            <span class="px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded">{{ boutique.nombreVentes }} ventes</span>
+          </div>
+          <p class="text-sm text-green-600 dark:text-green-400">CA: {{ boutique.chiffreAffaires }} MGA</p>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Graphique -->
+    <div class="p-6 bg-white rounded-xl border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03]">
+      <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90">Chiffre d'Affaires par Boutique</h2>
+      <div class="flex items-end justify-center gap-4 h-64 p-4">
+        @for (boutique of venteParBoutique; track boutique._id) {
+        <div class="flex flex-col items-center justify-end h-full flex-1">
+          <div class="w-full bg-blue-500 rounded-t-lg transition-all hover:bg-blue-600" 
+               [style.height.%]="getBarHeight(boutique.chiffreAffaires)">
+          </div>
+          <p class="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">{{ boutique.boutique }}</p>
+          <p class="text-xs font-medium text-gray-800 dark:text-white/90">{{ (boutique.chiffreAffaires / 1000).toFixed(0) }}k</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

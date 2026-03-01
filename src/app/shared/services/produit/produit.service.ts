@@ -7,36 +7,44 @@ import { Observable } from "rxjs";
   providedIn: 'root',
 })
 export class ProduitService {
-    private apiUrl = environment.apiUrl;
-    private readonly TOKEN_KEY = 'auth_token';
+  private apiUrl = environment.apiUrl;
+  private readonly TOKEN_KEY = 'auth_token';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-    getMesProduits(): Observable<any> {
-      return this.http.get(`${this.apiUrl}/boutique/mes-produits`);
-    }
+  getMesProduits(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/boutique/mes-produits`);
+  }
 
-    createProduit(formData: FormData): Observable<any> {
-      return this.http.post(`${this.apiUrl}/produit/create-produit`, formData);
-    }
+  createProduit(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/produit/create-produit`, formData);
+  }
 
-    updateProduit(id: string, formData: FormData): Observable<any> {
-      return this.http.put(
-        `${this.apiUrl}/produit/modifier-produit/${id}`,
-        formData
-      );
-    }
+  updateProduit(id: string, formData: FormData): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/produit/modifier-produit/${id}`,
+      formData
+    );
+  }
+
+  getMvtStock(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/produit/mouvements-stock`);
+  }
+
+  restockProduit(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/produit/ajoutStock`, data);
+  }
 
 
-    setToken(token: string): void {
-        localStorage.setItem(this.TOKEN_KEY, token);
-    }
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
 
-    getToken(): string | null {
-        return localStorage.getItem(this.TOKEN_KEY);
-    }
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
 
-    removeToken(): void {
-        localStorage.removeItem(this.TOKEN_KEY);
-    }
+  removeToken(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
 }
