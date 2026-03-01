@@ -6,6 +6,7 @@ import { ProduitService } from "../../shared/services/produit/produit.service";
 import { STOCK } from "../../shared/constant/stocks.constant";
 import { SnackbarService } from "../../services/snackbar.service";
 import { RestockModalComponent } from "./restock-modal.component";
+import { environment } from "../../environments/environment";
 
 @Component({
     selector: 'app-produit',
@@ -20,6 +21,7 @@ import { RestockModalComponent } from "./restock-modal.component";
     styles: ``
 })
 export class StockComponent implements OnInit {
+    private apiUrl = environment.apiUrl;
     stocks: any[] = [];
     ETAT_STOCK = STOCK.ETAT;
     isModalOpen = false;
@@ -165,7 +167,7 @@ export class StockComponent implements OnInit {
 
     getImageUrl(imagePath: string | null): string {
         if (!imagePath) return '/images/default-product.png';
-        return `http://localhost:3000/${imagePath}`;
+        return `${this.apiUrl}/${imagePath}`;
     }
 
     getBarHeight(value: number): number {

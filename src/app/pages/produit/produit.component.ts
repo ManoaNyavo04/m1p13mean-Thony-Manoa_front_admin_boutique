@@ -6,6 +6,7 @@ import { ProduitModalComponent } from './produit-modal.component';
 import { ProduitService } from '../../shared/services/produit/produit.service';
 import { CategorieService } from '../../shared/services/categorie/categorie.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-produit',
@@ -18,6 +19,7 @@ import { SnackbarService } from '../../services/snackbar.service';
   styles: ``
 })
 export class ProduitComponent implements OnInit {
+  private apiUrl = environment.apiUrl;
   produits: any[] = [];
   categories: any[] = [];
 
@@ -186,7 +188,7 @@ export class ProduitComponent implements OnInit {
 
   getImageUrl(imagePath: string | null): string {
     if (!imagePath) return '/images/default-product.png';
-    return `http://localhost:3000/${imagePath}`;
+    return `${this.apiUrl}/${imagePath}`;
   }
 
 }
