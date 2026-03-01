@@ -14,4 +14,8 @@ export class DashboardBoutiqueService {
   getDashboardData(): Observable<any> {
     return this.http.get(`${this.apiUrl}/dashboard/boutique`);
   }
+
+  getDashboardAdmin(params: string = ''): Observable<any> {
+    return this.http.get(`${this.apiUrl}/dashboard/admin${params}`);
+  }
 }

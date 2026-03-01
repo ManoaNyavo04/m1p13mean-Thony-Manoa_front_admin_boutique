@@ -29,6 +29,7 @@ import {DashboardBoutiqueComponent} from "./pages/dashboard-boutique/dashboard-b
 
 import { AcheteurComponent } from './pages/acheteur/acheteur.component';
 import { StockComponent } from './pages/stock/stock.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashbord-admin.component';
 
 
 export const routes: Routes = [
@@ -147,7 +148,13 @@ export const routes: Routes = [
         path:'liste-acheteur',
         component:AcheteurComponent,
         title:'Liste des acheteurs',
-        canActivate: [authAdminGuard]
+        canActivate: [authAdminGuard] //dashboard-admin
+      },
+      {
+        path:'dashboard-admin',
+        component:DashboardAdminComponent,
+        title:'Tableau de bord admin',
+        canActivate: [authAdminGuard] //dashboard-admin
       },
     ]
   },

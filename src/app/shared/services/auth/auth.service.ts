@@ -42,7 +42,13 @@ export class AuthService {
 
   getUserRole(): string | null {
     const userInfo = this.getUserInfo();
+    console.log('getUserRole called, userInfo:', userInfo);
     return userInfo?.type || null;
+  }
+
+  getUserName(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo?.userId || null;
   }
 
   isAuthenticated(): boolean {
