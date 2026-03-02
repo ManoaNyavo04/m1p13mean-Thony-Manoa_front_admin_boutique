@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-signin-form',
+  standalone: true,
   imports: [
     LabelComponent,
     ButtonComponent,
@@ -20,8 +21,8 @@ import { RouterModule } from '@angular/router';
 export class SigninFormComponent implements OnInit {
 
   @Output() loginSubmit = new EventEmitter<{ email: string; password: string }>();
-  @Input() errorMessage = '';
-  @Input() loginTitle = 'Sign In';
+  @Input() errorMessage: string = '';
+  @Input() loginTitle: string = 'Sign In';
   @Input() type: string = '';
 
   showPassword = false;
