@@ -22,7 +22,7 @@ export class SigninFormComponent implements OnInit {
   @Output() loginSubmit = new EventEmitter<{ email: string; password: string }>();
   @Input() errorMessage = '';
   @Input() loginTitle = 'Sign In';
-  @Input() type = '';
+  @Input() type: string = '';
 
   showPassword = false;
 
