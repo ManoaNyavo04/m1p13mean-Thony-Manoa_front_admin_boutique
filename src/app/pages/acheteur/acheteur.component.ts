@@ -8,9 +8,6 @@ import { AcheteurService } from "../../shared/services/acheteur/acheteur.service
 @Component({
     selector: 'app-acheteur',
     imports: [
-        ButtonComponent,
-        CheckboxComponent,
-        ProduitModalComponent,
         FormsModule
     ],
     templateUrl: './acheteur.component.html',
