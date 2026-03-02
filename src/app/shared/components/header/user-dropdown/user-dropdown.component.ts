@@ -30,6 +30,10 @@ export class UserDropdownComponent implements OnInit {
     }
   }
 
+  getInitial(): string {
+    return this.userName ? this.userName.charAt(0).toUpperCase() : 'U';
+  }
+
   toggleDropdown() {
     this.isOpen = !this.isOpen;
   }
