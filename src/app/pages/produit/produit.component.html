@@ -8,9 +8,9 @@
     <div class="flex items-center gap-3">
       <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Rechercher..."
         class="px-3 py-1.5 text-sm border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-      <app-button (click)="openCreateModal()">
+      <button class="px-3 py-1 text-sm text-white bg-blue-800 rounded hover:bg-blue-800" (click)="openCreateModal()">
         Ajouter
-      </app-button>
+      </button>
     </div>
   </div>
 
