@@ -11,7 +11,6 @@ import { environment } from "../../environments/environment";
 @Component({
     selector: 'app-produit',
     imports: [
-        ButtonComponent,
         RestockModalComponent,
         FormsModule,
         NgClass,

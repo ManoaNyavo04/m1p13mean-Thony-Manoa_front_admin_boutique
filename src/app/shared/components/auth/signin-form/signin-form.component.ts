@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { LabelComponent } from '../../form/label/label.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { InputFieldComponent } from '../../form/input/input-field.component';
@@ -17,16 +17,27 @@ import { RouterModule } from '@angular/router';
   templateUrl: './signin-form.component.html',
   styles: ``
 })
-export class SigninFormComponent {
+export class SigninFormComponent implements OnInit {
 
   @Output() loginSubmit = new EventEmitter<{ email: string; password: string }>();
   @Input() errorMessage = '';
   @Input() loginTitle = 'Sign In';
+  @Input() type = '';
 
   showPassword = false;
 
   email = '';
   password = '';
+
+  ngOnInit(): void {
+    if (this.type === 'admin') {
+      this.email = 'admin@gmail.com';
+      this.password = 'admin123';
+    } else if (this.type === 'boutique') {
+      this.email = 'boutique@gmail.com';
+      this.password = 'boutique123';
+    }
+  }
 
   updateEmail(value: string | number) {
     this.email = String(value);
