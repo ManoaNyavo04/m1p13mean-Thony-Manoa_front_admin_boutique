@@ -7,6 +7,11 @@
     </div>
 
     <form>
+      @if (errorMessage) {
+      <div class="mb-4 p-4 text-sm text-error-700 bg-error-50 rounded-lg border border-error-200 dark:bg-error-900/20 dark:text-error-400 dark:border-error-800">
+        {{ errorMessage }}
+      </div>
+      }
       <div class="space-y-5">
         <!-- Nom -->
         <div>
@@ -20,7 +25,7 @@
           <app-label>
             Email <span class="text-error-500">*</span>
           </app-label>
-          <app-input-field type="email" [value]="mail" (valueChange)="updateMail($event)" id="mail" name="mail" placeholder="Entrez votre email" />
+          <app-input-field type="email" [value]="mail" (valueChange)="updateMail($event)" id="mail" name="mail" placeholder="Entrez votre email" class="form-input" required />
         </div>
         <!-- Numéro -->
         <div>

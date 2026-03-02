@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { LabelComponent } from '../../form/label/label.component';
 import { InputFieldComponent } from '../../form/input/input-field.component';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +19,7 @@ export class SignupFormComponent {
   showPassword = false;
 
   @Output() registerSubmit = new EventEmitter<{ nom: string; mail: string; numero: string; mdp: string }>();
+  @Input() errorMessage = '';
 
   nom = '';
   mail = '';

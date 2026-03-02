@@ -15,18 +15,22 @@ import { UtilisateursService } from '../../../shared/services/utilisateur/utilis
 })
 export class SignUpComponent {
 
+  errorMessage = '';
+
   constructor(
     private utilisateursService: UtilisateursService,
     private router: Router
   ) {}
 
   onRegister(data: { nom: string; mail: string; numero: string; mdp: string }) {
+    this.errorMessage = '';
     this.utilisateursService.registerBoutique(data.nom, data.mail, data.numero, data.mdp).subscribe({
       next: (response) => {
         console.log('Registration success:', response);
         this.router.navigate(['/boutique/login']);
       },
       error: (error) => {
+        this.errorMessage = error.error?.error || 'Une erreur est survenue';
         console.error('Registration failed:', error);
       }
     });
