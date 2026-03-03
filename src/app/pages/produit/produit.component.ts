@@ -139,15 +139,24 @@ export class ProduitComponent implements OnInit {
     console.log('isEditMode:', this.isEditMode);
     
     // Validation
-    if (!formData.nomProduit || !formData.prix || !formData.nombre || !formData.categorie) {
+    if (!formData.nomProduit || !formData.prix || !formData.categorie) {
       this.snackbarService.error('Tous les champs sont requis');
+      return;
+    }
+
+    if (!this.isEditMode && !formData.nombre) {
+      this.snackbarService.error('Le nombre est requis pour la création');
       return;
     }
 
     const formDataToSend = new FormData();
     formDataToSend.append('nomProduit', formData.nomProduit);
     formDataToSend.append('prix', formData.prix.toString());
-    formDataToSend.append('nombre', formData.nombre.toString());
+    
+    if (!this.isEditMode) {
+      formDataToSend.append('nombre', formData.nombre.toString());
+    }
+    
     formDataToSend.append('categorie', typeof formData.categorie === 'object' ? formData.categorie._id : formData.categorie);
     
     if (formData.image instanceof File) {
